@@ -1,0 +1,19 @@
+<div class="row">
+    <div class="large-6 large-offset-3 columns">
+        <h2 class="text-center">Sign Up Form</h2>
+        <%= form_for @driver, url: drivers_path do |f|  %>
+            <%= f.text_field :name, placeholder: "Name" %>
+            <%= f.email_field :email, placeholder: "Email"  %>
+            <%= f.telephone_field :phone_number, placeholder: "Phone Number"  %>
+            <%= f.password_field :password, placeholder: "Password"  %>
+            <%= f.password_field :password_confirmation, placeholder: "Re-Type Password"  %>
+            <h4>Vehicle Information:</h4>
+            <%= f.fields_for :car, @driver.car do |car_fields|  %>
+                <%= car_fields.text_field :make, placeholder: "Vehicle Make" %>
+                <%= car_fields.text_field :model, placeholder: "Vehicle Model" %>
+                <%= car_fields.number_field :capacity, placeholder: "Vehicle Capacity"  %>
+            <% end %>
+            <%= f.submit "Create Account", class: "button" %>
+        <% end %>
+    </div>
+</div>

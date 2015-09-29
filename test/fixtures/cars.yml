@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  make: MyString
+  model: MyString
+  capacity: 1
+  user_id: 
+
+two:
+  make: MyString
+  model: MyString
+  capacity: 1
+  user_id: 

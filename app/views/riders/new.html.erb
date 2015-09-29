@@ -1,0 +1,13 @@
+<div class="row">
+    <div class="large-6 large-offset-3 columns">
+        <h2 class="text-center">Sign Up Form</h2>
+        <%= form_for @rider, url: riders_path do |f|  %>
+            <%= f.text_field :name, placeholder: "Name" %>
+            <%= f.email_field :email, placeholder: "Email"  %>
+            <%= f.telephone_field :phone_number, placeholder: "Phone Number"  %>
+            <%= f.password_field :password, placeholder: "Password"  %>
+            <%= f.password_field :password_confirmation, placeholder: "Re-Type Password"  %>
+            <%= f.submit "Create Account", class: "button" %>
+        <% end %>
+    </div>
+</div>
