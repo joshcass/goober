@@ -8,4 +8,17 @@ class User < ActiveRecord::Base
   enum role: %w(rider driver)
   has_one :car
   accepts_nested_attributes_for :car
+  has_many :fares, foreign_key: :driver_id
+  has_many :driver_trips, through: :fares, source: 'trip'
+  has_many :rides, foreign_key: :rider_id
+  has_many :rider_trips, through: :rides, source: 'trip'
+
+
+  def update_available
+    available? ? update_attribute(:available, false) : update_attribute(:available, true)
+  end
+
+  def active_rider_trip
+    rider_trips.where.not(status: 3).first
+  end
 end
