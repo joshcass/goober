@@ -45,4 +45,32 @@ class TripTest < ActiveSupport::TestCase
     driver.car = Car.create(make: "Tesla", model: 'X', capacity: 7)
     assert_equal Trip.available_for_driver(driver.car.capacity).count, 1
   end
+
+  test 'trip accepted adds driver changes driver status and trip status' do
+    trip.accepted(driver)
+    assert_equal trip.driver, driver
+    assert_equal trip.status, 'accepted'
+    refute driver.available?
+  end
+
+  test 'it can transition from active to accepted and update accepted time' do
+    trip.accept!
+    assert_equal trip.status, 'accepted'
+    assert_not_nil trip.accepted_time
+  end
+
+  test 'it can transition from accepted to in_tranist and update pickup time' do
+    trip.accept!
+    trip.pick_up!
+    assert_equal trip.status, 'in_transit'
+    assert_not_nil trip.pickup_time
+  end
+
+  test 'it can transiion from in_transit to completed and update dropoff time' do
+    trip.accept!
+    trip.pick_up!
+    trip.drop_off!
+    assert_equal trip.status, 'completed'
+    assert_not_nil trip.dropoff_time
+  end
 end

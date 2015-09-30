@@ -1,6 +1,6 @@
 class RidersController < ApplicationController
   skip_before_action :authorize!, only: [:new, :create]
-  before_action :verify_role!, only: [:show]
+  before_action :validate_role!, only: [:show]
 
   def show
     @rider = current_user
@@ -27,7 +27,7 @@ class RidersController < ApplicationController
     params.require(:user).permit(:name, :email, :phone_number, :password, :password_confirmation)
   end
 
-  def verify_role!
+  def validate_role!
     redirect_to root_path, notice: "Page Not Found" unless current_user.rider?
   end
 end
