@@ -1,0 +1,45 @@
+<div class="row">
+    <h1 class="text-center">Driver Dashboard</h1>
+    <% if @driver.active_driver_trip %>
+        <div class="row">
+            <div class="large-6 large-offset-3 columns">
+                <div class="panel" style="background-color: white">
+                    <h3 class="text-center">Your Trip Has Started!</h3>
+                    <p class="text-center">Pickup Location: <%= @rider.active_rider_trip.pickup_location %></p>
+                    <p class="text-center">Dropoff Location: <%= @rider.active_rider_trip.dropoff_location %></p>
+                    <p class="text-center">Number Of Passengers: <%= @rider.active_rider_trip.passengers %></p>
+                    <div class="panel">
+                        <p class="text-center">Status: <%= @rider.active_rider_trip.status.capitalize  %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% end %>
+    <% if @driver.available?  %>
+        <div class="row">
+            <div class="large-10 large-offset-1 columns">
+                <h3 class="text-center">Trip Requests</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th width="400">Pickup Location</th>
+                            <th width="400">Dropoff Location</th>
+                            <th>Passengers</th>
+                            <th width="150"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <% @available_trips.each do |trip|  %>
+                                <td><%= trip.pickup_location %></td>
+                                <td><%= trip.dropoff_location %></td>
+                                <td><%= trip.passengers  %></td>
+                                <td><%= link_to "Pickup Rider", root_path, class: "button tiny" %></td>
+                            <% end %>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    <% end %>
+</div>

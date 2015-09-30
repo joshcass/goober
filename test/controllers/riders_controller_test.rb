@@ -36,7 +36,7 @@ class RidersControllerTest < ActionController::TestCase
     assert_template :show
   end
 
-  test 'a rider cannot view driver show' do
+  test 'a driver cannot view rider show' do
      @driver = User.create(name: "Josh",
                          email: "jo@jo.com",
                          phone_number: '5555555555',

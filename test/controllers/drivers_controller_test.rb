@@ -35,6 +35,7 @@ class DriversControllerTest < ActionController::TestCase
     get :show, id: @driver.id
     assert_response :success
     assert_not_nil assigns :driver
+    assert_not_nil assigns :available_trips
     assert_template :show
   end
 

@@ -7,6 +7,8 @@ class Trip < ActiveRecord::Base
 
   enum status: %w(active accepted in_transit completed)
 
+  scope :available_for_driver, ->(capacity) {where("status = 0 and passengers <= ?", capacity)}
+
   def start(rider)
     self.rider = rider
     rider.update_available
