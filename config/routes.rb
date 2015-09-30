@@ -6,6 +6,6 @@ Rails.application.routes.draw do
   get '/login', to: 'sessions#new', as: :login
   delete '/logout', to: 'sessions#destroy', as: :logout
   resources :trips, only: [:new, :create] do
-    resources :fares, only: [:create]
+    resources :fares, only: [:create, :update]
   end
 end

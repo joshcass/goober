@@ -37,9 +37,15 @@ class UserTest < ActiveSupport::TestCase
    assert_equal driver.fares.count, 1
  end
 
- test 'a user can have a active trip' do
+ test 'a user who is a rider can have an active ride' do
    trip.rider = rider
    inactive_trip.rider = rider
-   assert_equal rider.active_rider_trip, trip
+   assert_equal rider.active_ride, trip.ride
+ end
+
+ test 'a user who is a driver can have an active fare' do
+   trip.driver = driver
+   inactive_trip.driver = driver
+   assert_equal driver.active_fare, trip.fare
  end
 end

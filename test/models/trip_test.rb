@@ -60,17 +60,36 @@ class TripTest < ActiveSupport::TestCase
   end
 
   test 'it can transition from accepted to in_tranist and update pickup time' do
-    trip.accept!
+    trip.status = 'accepted'
     trip.pick_up!
     assert_equal trip.status, 'in_transit'
     assert_not_nil trip.pickup_time
   end
 
-  test 'it can transiion from in_transit to completed and update dropoff time' do
-    trip.accept!
-    trip.pick_up!
+  test 'it can transiion from in_transit to completed, update dropoff time, update rider and driver availablitiy' do
+    trip.driver = driver
+    trip.rider = rider
+    trip.driver.available = false
+    trip.rider.available = false
+    trip.status = 'in_transit'
     trip.drop_off!
     assert_equal trip.status, 'completed'
     assert_not_nil trip.dropoff_time
+    assert trip.driver.available?
+    assert trip.rider.available?
+  end
+
+  test 'update status changes status from accepted to in_transit' do
+    trip.status = 'accepted'
+    trip.update_status
+    assert_equal 'in_transit', trip.status
+  end
+
+  test 'update status changes status from in_transit to completed' do
+    trip.rider = rider
+    trip.driver = driver
+    trip.status = 'in_transit'
+    trip.update_status
+    assert_equal 'completed', trip.status
   end
 end

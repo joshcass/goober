@@ -4,6 +4,7 @@ class RidersController < ApplicationController
 
   def show
     @rider = current_user
+    @active_ride = @rider.active_ride
   end
 
   def new

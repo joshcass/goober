@@ -5,19 +5,19 @@
             <%= link_to "Start A Trip", new_trip_path, class: button_class(@rider) %>
         </div>
     </div>
-    <% if @rider.active_rider_trip %>
+    <% if @active_ride %>
         <div class="row">
             <div class="large-6 large-offset-3 columns">
                 <div class="panel" style="background-color: white">
                     <h3 class="text-center">Current Trip</h3>
-                    <p class="text-center">Pickup Location: <%= @rider.active_rider_trip.pickup_location %></p>
-                    <p class="text-center">Dropoff Location: <%= @rider.active_rider_trip.dropoff_location %></p>
-                    <p class="text-center">Number Of Passengers: <%= @rider.active_rider_trip.passengers %></p>
+                    <p class="text-center">Pickup Location: <%= @active_ride.pickup_location %></p>
+                    <p class="text-center">Dropoff Location: <%= @active_ride.dropoff_location %></p>
+                    <p class="text-center">Number Of Passengers: <%= @active_ride.passengers %></p>
                     <div class="panel">
-                        <p class="text-center">Status: <%= @rider.active_rider_trip.status.capitalize %></p>
-                        <% if @rider.active_rider_trip.driver %>
-                            <p class="text-center">Driver: <%= @rider.active_rider_trip.driver.name  %></p>
-                            <p class="text-center">Vehicle: <%= @rider.active_rider_trip.driver.car.type %></p>
+                        <p class="text-center">Status: <%= @active_ride.status.titleize %></p>
+                        <% if @active_ride.driver %>
+                            <p class="text-center">Driver: <%= @active_ride.driver.name  %></p>
+                            <p class="text-center">Vehicle: <%= @active_ride.driver.car.type %></p>
                         <% end %>
                     </div>
                 </div>

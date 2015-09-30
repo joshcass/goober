@@ -8,7 +8,6 @@ class FaresControllerTest < ActionController::TestCase
                          password: 'password',
                          password_confirmation: 'password',
                          role: 'driver')
-    @driver.car = Car.create(make: "Tesla", model: "X", capacity: 5)
     @trip = Trip.create(pickup_location: '111 Street', dropoff_location: '222 Street', passengers: 5)
 
     session[:user_id] = @driver.id
@@ -18,5 +17,17 @@ class FaresControllerTest < ActionController::TestCase
     post :create, trip_id: @trip.id
     assert_response :redirect
     assert_redirected_to driver_path(@driver.id)
+    assert @trip.fare
+  end
+
+  test 'it updates fare trip on #update' do
+    @trip.driver = @driver
+    @driver.update_available
+    @trip.status = 'accepted'
+
+    patch :update, trip_id: @trip.id, id: @trip.fare.id
+    assert_response :redirect
+    assert_redirected_to driver_path(@driver.id)
+    assert flash[:success]
   end
 end

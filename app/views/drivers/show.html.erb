@@ -1,16 +1,17 @@
 <div class="row">
     <h1 class="text-center">Driver Dashboard</h1>
-    <% if @driver.active_driver_trip %>
+    <% if @active_fare %>
         <div class="row">
             <div class="large-6 large-offset-3 columns">
                 <div class="panel" style="background-color: white">
                     <h3 class="text-center">Current Trip</h3>
-                    <p class="text-center">Passenger: <%= @driver.active_driver_trip.rider.name  %></p>
-                    <p class="text-center">Pickup Location: <%= @driver.active_driver_trip.pickup_location %></p>
-                    <p class="text-center">Dropoff Location: <%= @driver.active_driver_trip.dropoff_location %></p>
-                    <p class="text-center">Number Of Passengers: <%= @driver.active_driver_trip.passengers %></p>
+                    <p class="text-center">Passenger: <%= @active_fare.trip.rider.name  %></p>
+                    <p class="text-center">Pickup Location: <%= @active_fare.trip.pickup_location %></p>
+                    <p class="text-center">Dropoff Location: <%= @active_fare.trip.dropoff_location %></p>
+                    <p class="text-center">Number Of Passengers: <%= @active_fare.trip.passengers %></p>
                     <div class="panel">
-                        <p class="text-center">Status: <%= @driver.active_driver_trip.status.capitalize  %>
+                        <p class="text-center">Status: <%= @active_fare.trip.status.titleize  %></p>
+                        <p class="text-center"><%= fare_button_display(@active_fare) %></p>
                     </div>
                 </div>
             </div>
