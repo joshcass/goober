@@ -10,11 +10,11 @@ class TripTest < ActiveSupport::TestCase
   end
 
   def trip
-    @trip ||= Trip.create(pickup_location: '111 Street', dropoff_location: '222 Street', passengers: '5')
+    @trip ||= Trip.create(pickup_location: '111 Street', dropoff_location: '222 Street', passengers: 5)
   end
 
   test 'it is valid with proper attributes' do
-    trip = Trip.new(pickup_location: '111 Street', dropoff_location: '222 Street', passengers: '5')
+    trip = Trip.new(pickup_location: '111 Street', dropoff_location: '222 Street', passengers: 5)
     assert trip.valid?
   end
 
@@ -36,5 +36,13 @@ class TripTest < ActiveSupport::TestCase
     trip.start(rider)
     assert_equal trip.rider, rider
     refute rider.available?
+  end
+
+  test 'it can find available trips for a driver' do
+    trip
+    Trip.create(pickup_location: '333 Street', dropoff_location: '444 Street', passengers: 15)
+    Trip.create(pickup_location: '333 Street', dropoff_location: '444 Street', passengers: 5, status: 'in_transit')
+    driver.car = Car.create(make: "Tesla", model: 'X', capacity: 7)
+    assert_equal Trip.available_for_driver(driver.car.capacity).count, 1
   end
 end

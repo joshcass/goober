@@ -21,4 +21,8 @@ class User < ActiveRecord::Base
   def active_rider_trip
     rider_trips.where.not(status: 3).first
   end
+
+  def active_driver_trip
+    driver_trips.where.not(status: 3).first
+  end
 end
