@@ -12,13 +12,22 @@ class Trip < ActiveRecord::Base
 
   def start(rider)
     self.rider = rider
-    rider.update_available
+    update_rider_status
   end
 
   def accepted(driver)
     self.driver = driver
-    driver.update_available
+    update_driver_status
     self.accept!
+  end
+
+  def update_status
+    case status
+    when 'accepted'
+      pick_up!
+    when 'in_transit'
+      drop_off!
+    end
   end
 
   aasm column: :status, enum: true do
@@ -44,6 +53,8 @@ class Trip < ActiveRecord::Base
     event :drop_off do
       after do
         update_dropoff_time
+        update_rider_status
+        update_driver_status
       end
       transitions from: :in_transit, to: :completed
     end
@@ -61,5 +72,13 @@ class Trip < ActiveRecord::Base
 
   def update_dropoff_time
     update_attribute :dropoff_time, Time.zone.now
+  end
+
+  def update_rider_status
+    self.rider.update_available
+  end
+
+  def update_driver_status
+    self.driver.update_available
   end
 end

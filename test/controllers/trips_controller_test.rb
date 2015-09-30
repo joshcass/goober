@@ -17,6 +17,7 @@ class TripsControllerTest < ActionController::TestCase
 
     assert_response :redirect
     assert_redirected_to rider_path(@rider.id)
+    assert 1, Trip.all.count
   end
 
   test 'it can load #new' do

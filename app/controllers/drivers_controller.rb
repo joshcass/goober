@@ -5,6 +5,7 @@ class DriversController < ApplicationController
   def show
     @driver = current_user
     @available_trips = Trip.available_for_driver(@driver.car.capacity)
+    @active_fare = @driver.active_fare
   end
 
   def new

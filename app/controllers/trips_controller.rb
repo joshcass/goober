@@ -23,6 +23,6 @@ class TripsController < ApplicationController
   end
 
   def validate_rider_has_no_rides_in_progress!
-    redirect_to rider_path(current_user) unless current_user.available?
+    redirect_to rider_path(current_user), notice: "You already have an active trip!" unless current_user.available?
   end
 end
