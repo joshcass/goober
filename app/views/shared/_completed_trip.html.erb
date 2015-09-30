@@ -1,0 +1,33 @@
+<div class="row">
+    <div class="large-10 large-offset-1 columns">
+        <h3 class="text-center">Completed Rides</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Rider</th>
+                    <th>Driver</th>
+                    <th>Pickup Location</th>
+                    <th>Dropoff Location</th>
+                    <th>Requested Time</th>
+                    <th>Accepted Time</th>
+                    <th>Picked Up Time</th>
+                    <th>Completed Time</th>
+                    <th>Ride Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><%= completed_trip.rider.name %></td>
+                    <td><%= completed_trip.driver.name %></td>
+                    <td><%= completed_trip.pickup_location %></td>
+                    <td><%= completed_trip.dropoff_location %></td>
+                    <td><%= time_tag completed_trip.created_at, format: "%b %-d, %Y %-l:%M %p" %></td>
+                    <td><%= time_tag completed_trip.accepted_time, format: "%b %-d, %Y %-l:%M %p" %></td>
+                    <td><%= time_tag completed_trip.pickup_time, format: "%b %-d, %Y %-l:%M %p" %></td>
+                    <td><%= time_tag completed_trip.dropoff_time, format: "%b %-d, %Y %-l:%M %p" %></td>
+                    <td><%= number_to_currency completed_trip.cost  %></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
