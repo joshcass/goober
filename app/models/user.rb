@@ -9,7 +9,9 @@ class User < ActiveRecord::Base
   has_one :car
   accepts_nested_attributes_for :car
   has_many :fares, foreign_key: :driver_id
+  has_many :driver_trips, through: :fares, source: 'trip'
   has_many :rides, foreign_key: :rider_id
+  has_many :rider_trips, through: :rides, source: 'trip'
 
 
   def update_available
@@ -22,5 +24,13 @@ class User < ActiveRecord::Base
 
   def active_fare
     fares.joins(:trip).where('trips.status != ?', 3).first
+  end
+
+  def completed_driver_trips
+    driver_trips.where(status: 3)
+  end
+
+  def completed_rider_trips
+    rider_trips.where(status: 3)
   end
 end

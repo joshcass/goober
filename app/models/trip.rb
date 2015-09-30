@@ -1,5 +1,7 @@
 class Trip < ActiveRecord::Base
   include AASM
+  COST_PER_MINUTE = 0.67
+
   validates :pickup_location, :dropoff_location, :passengers, presence: true
   has_one :fare
   has_one :driver, through: :fare
@@ -55,6 +57,7 @@ class Trip < ActiveRecord::Base
         update_dropoff_time
         update_rider_status
         update_driver_status
+        calculate_cost
       end
       transitions from: :in_transit, to: :completed
     end
@@ -80,5 +83,10 @@ class Trip < ActiveRecord::Base
 
   def update_driver_status
     self.driver.update_available
+  end
+
+  def calculate_cost
+    cost = ((dropoff_time - pickup_time) / 60) * COST_PER_MINUTE
+    update_attribute(:cost, cost)
   end
 end

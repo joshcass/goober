@@ -53,28 +53,37 @@ class TripTest < ActiveSupport::TestCase
     refute driver.available?
   end
 
-  test 'it can transition from active to accepted and update accepted time' do
+  test 'it can transition from active to accepted and updates accepted time' do
     trip.accept!
     assert_equal trip.status, 'accepted'
     assert_not_nil trip.accepted_time
   end
 
-  test 'it can transition from accepted to in_tranist and update pickup time' do
+  test 'it can transition from accepted to in_tranist and updates pickup time' do
     trip.status = 'accepted'
     trip.pick_up!
     assert_equal trip.status, 'in_transit'
     assert_not_nil trip.pickup_time
   end
 
-  test 'it can transiion from in_transit to completed, update dropoff time, update rider and driver availablitiy' do
+  test 'it can transition from in_transit to completed and updates dropoff time' do
     trip.driver = driver
     trip.rider = rider
-    trip.driver.available = false
-    trip.rider.available = false
+    trip.pickup_time = Time.now
     trip.status = 'in_transit'
     trip.drop_off!
     assert_equal trip.status, 'completed'
     assert_not_nil trip.dropoff_time
+  end
+
+  test 'it can updates rider and driver to avilable when completed' do
+    trip.driver = driver
+    trip.rider = rider
+    trip.driver.available = false
+    trip.rider.available = false
+    trip.pickup_time = Time.now
+    trip.status = 'in_transit'
+    trip.drop_off!
     assert trip.driver.available?
     assert trip.rider.available?
   end
@@ -88,8 +97,18 @@ class TripTest < ActiveSupport::TestCase
   test 'update status changes status from in_transit to completed' do
     trip.rider = rider
     trip.driver = driver
+    trip.pickup_time = Time.now
     trip.status = 'in_transit'
     trip.update_status
     assert_equal 'completed', trip.status
+  end
+
+  test 'it calculates trip cost when completed' do
+    trip.rider = rider
+    trip.driver = driver
+    trip.pickup_time = 10.minutes.ago
+    trip.status = 'in_transit'
+    trip.drop_off!
+    assert_equal '6.7', trip.cost.round(2).to_digits
   end
 end
