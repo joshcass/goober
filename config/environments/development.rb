@@ -38,4 +38,6 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  GOOGLE_MAPS_API_KEY = Figaro.env.google_maps_api_key
 end

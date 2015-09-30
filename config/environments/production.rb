@@ -76,4 +76,6 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  GOOGLE_MAPS_API_KEY = Figaro.env.google_maps_api_key
 end

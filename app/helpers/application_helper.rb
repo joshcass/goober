@@ -6,11 +6,12 @@ module ApplicationHelper
 
   def fare_button_display(fare)
     display = trip_statuses[fare.trip.status]
-    link_to display, trip_fare_path(fare.trip, fare), method: :patch, class: 'button small'
+    button_to display, trip_fare_path(fare.trip, fare), method: :patch, class: 'button small'
   end
 
   def trip_statuses
-    {'active' => 'Picked Up',
+    {'accepted' => 'Picked Up',
       'in_transit' => 'Dropped Off'}
   end
+
 end
