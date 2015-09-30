@@ -12,6 +12,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'bcrypt'
 gem 'foundation-rails'
 gem 'aasm'
+gem 'google_directions'
+gem 'figaro'
 
 group :development, :test do
   gem 'byebug'
@@ -19,5 +21,9 @@ group :development, :test do
   gem 'web-console', '~> 2.0'
   gem 'spring'
   gem 'database_cleaner'
+  gem 'vcr'
+  gem 'webmock'
+  gem 'capybara'
+  gem 'simplecov'
 end
 

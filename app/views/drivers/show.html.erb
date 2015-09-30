@@ -9,9 +9,9 @@
                     <p class="text-center">Pickup Location: <%= @active_fare.trip.pickup_location %></p>
                     <p class="text-center">Dropoff Location: <%= @active_fare.trip.dropoff_location %></p>
                     <p class="text-center">Number Of Passengers: <%= @active_fare.trip.passengers %></p>
-                    <div class="panel">
-                        <p class="text-center">Status: <%= @active_fare.trip.status.titleize  %></p>
-                        <p class="text-center"><%= fare_button_display(@active_fare) %></p>
+                    <div class="panel text-center">
+                        <p>Status: <%= @active_fare.trip.status.titleize  %></p>
+                        <p><%= fare_button_display(@active_fare) %></p>
                     </div>
                 </div>
             </div>

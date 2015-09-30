@@ -1,6 +1,14 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
+  def setup
+    Trip.skip_callback(:create, :after, :create_trip_estimates)
+  end
+
+  def teardown
+    Trip.set_callback(:create, :after, :create_trip_estimates)
+  end
+
   def rider
     @rider ||= User.create(email: 'joe@joe.com', name: 'joe', phone_number: '555-1212', password: 'password', password_confirmation: 'password', role: 'rider')
   end

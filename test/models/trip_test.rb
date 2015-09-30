@@ -1,6 +1,14 @@
 require 'test_helper'
 
 class TripTest < ActiveSupport::TestCase
+  def setup
+    Trip.skip_callback(:create, :after, :create_trip_estimates)
+  end
+
+  def teardown
+    Trip.set_callback(:create, :after, :create_trip_estimates)
+  end
+
   def rider
     @rider ||= User.create(email: 'joe@joe.com', name: 'joe', phone_number: '555-1212', password: 'password', password_confirmation: 'password', role: 'rider')
   end
@@ -111,4 +119,14 @@ class TripTest < ActiveSupport::TestCase
     trip.drop_off!
     assert_equal '6.7', trip.cost.round(2).to_digits
   end
+
+  test 'it can retrieve trip estimates' do
+    Trip.set_callback(:create, :after, :create_trip_estimates)
+    VCR.use_cassette('trip_estimate') do
+      trip = Trip.create(pickup_location: '196 S Corona St Denver CO', dropoff_location: '1510 Blake St Denver CO', passengers: 5)
+      assert_equal 15, trip.estimated_time
+      assert_equal 4, trip.estimated_distance
+    end
+  end
+
 end

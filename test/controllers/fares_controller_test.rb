@@ -2,6 +2,7 @@ require 'test_helper'
 
 class FaresControllerTest < ActionController::TestCase
   def setup
+    Trip.skip_callback(:create, :after, :create_trip_estimates)
     @driver = User.create(name: "Josh",
                          email: "josh@josh.com",
                          phone_number: '5555555555',
@@ -11,6 +12,10 @@ class FaresControllerTest < ActionController::TestCase
     @trip = Trip.create(pickup_location: '111 Street', dropoff_location: '222 Street', passengers: 5)
 
     session[:user_id] = @driver.id
+  end
+
+  def teardown
+    Trip.set_callback(:create, :after, :create_trip_estimates)
   end
 
   test 'it creates a fare on #create' do

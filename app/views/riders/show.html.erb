@@ -10,14 +10,21 @@
             <div class="large-6 large-offset-3 columns">
                 <div class="panel" style="background-color: white">
                     <h3 class="text-center">Current Trip</h3>
-                    <p class="text-center">Pickup Location: <%= @active_ride.pickup_location %></p>
-                    <p class="text-center">Dropoff Location: <%= @active_ride.dropoff_location %></p>
-                    <p class="text-center">Number Of Passengers: <%= @active_ride.passengers %></p>
+                    <p class="text-center">Pickup Location: <%= @active_ride.trip.pickup_location %></p>
+                    <p class="text-center">Dropoff Location: <%= @active_ride.trip.dropoff_location %></p>
+                    <p class="text-center">Number Of Passengers: <%= @active_ride.trip.passengers %></p>
+                    <% if @active_ride.trip.estimated_time %>
+                        <p class="text-center">Estimated Trip Time: <%= @active_ride.trip.estimated_time %> minutes</p>
+                        <p class="text-center">Estimated Trip Distance: <%= number_to_human @active_ride.trip.estimated_distance, units: :distance %></p>
+                        <p class="text-center">Estimated Cost: <%= number_to_currency @active_ride.trip.estimated_cost  %>
+                    <% end %>
                     <div class="panel">
-                        <p class="text-center">Status: <%= @active_ride.status.titleize %></p>
-                        <% if @active_ride.driver %>
-                            <p class="text-center">Driver: <%= @active_ride.driver.name  %></p>
-                            <p class="text-center">Vehicle: <%= @active_ride.driver.car.type %></p>
+                        <p class="text-center" id="tripStatus" data-id="<%= @active_ride.trip.id %>">
+                            Status: <%= @active_ride.trip.status.titleize %>
+                        </p>
+                        <% if @active_ride.trip.driver %>
+                            <p class="text-center">Driver: <%= @active_ride.trip.driver.name  %></p>
+                            <p class="text-center">Vehicle: <%= @active_ride.trip.driver.car.type %></p>
                         <% end %>
                     </div>
                 </div>

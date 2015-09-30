@@ -7,6 +7,7 @@ class Trip < ActiveRecord::Base
   has_one :driver, through: :fare
   has_one :ride
   has_one :rider, through: :ride
+  after_create :create_trip_estimates
 
   enum status: %w(active accepted in_transit completed)
 
@@ -30,6 +31,10 @@ class Trip < ActiveRecord::Base
     when 'in_transit'
       drop_off!
     end
+  end
+
+  def estimated_cost
+    estimated_time * COST_PER_MINUTE
   end
 
   aasm column: :status, enum: true do
@@ -88,5 +93,13 @@ class Trip < ActiveRecord::Base
   def calculate_cost
     cost = ((dropoff_time - pickup_time) / 60) * COST_PER_MINUTE
     update_attribute(:cost, cost)
+  end
+
+  def create_trip_estimates
+    directions = GoogleDirections.new(pickup_location, dropoff_location)
+    unless directions.status == "NOT_FOUND"
+      update_attribute(:estimated_time, directions.drive_time_in_minutes)
+      update_attribute(:estimated_distance, directions.distance_in_miles)
+    end
   end
 end
