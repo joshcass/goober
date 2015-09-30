@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150929222307) do
+ActiveRecord::Schema.define(version: 20150930000852) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,17 +27,52 @@ ActiveRecord::Schema.define(version: 20150929222307) do
 
   add_index "cars", ["user_id"], name: "index_cars_on_user_id", using: :btree
 
+  create_table "fares", force: :cascade do |t|
+    t.integer  "driver_id"
+    t.integer  "trip_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "fares", ["driver_id"], name: "index_fares_on_driver_id", using: :btree
+  add_index "fares", ["trip_id"], name: "index_fares_on_trip_id", using: :btree
+
+  create_table "rides", force: :cascade do |t|
+    t.integer  "rider_id"
+    t.integer  "trip_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "rides", ["rider_id"], name: "index_rides_on_rider_id", using: :btree
+  add_index "rides", ["trip_id"], name: "index_rides_on_trip_id", using: :btree
+
+  create_table "trips", force: :cascade do |t|
+    t.string   "pickup_location"
+    t.string   "dropoff_location"
+    t.integer  "passengers"
+    t.integer  "status",           default: 0
+    t.datetime "accepted_time"
+    t.datetime "pickup_time"
+    t.datetime "dropoff_time"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "name"
     t.string   "email"
     t.string   "phone_number"
     t.string   "password_digest"
     t.integer  "role"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.boolean  "available",       default: true
   end
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree
 
   add_foreign_key "cars", "users"
+  add_foreign_key "fares", "trips"
+  add_foreign_key "rides", "trips"
 end

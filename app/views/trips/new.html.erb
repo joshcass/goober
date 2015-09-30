@@ -1,0 +1,11 @@
+<div class="row">
+    <div class="large-6 large-offset-3 columns">
+        <h2 class="text-center">Start Your Trip</h2>
+        <%= form_for @trip do |f|  %>
+            <%= f.text_field :pickup_location, placeholder: "Pickup Location" %>
+            <%= f.text_field :dropoff_location, placeholder: "Dropoff Location"  %>
+            <%= f.number_field :passengers, placeholder: "Number of Passengers"  %>
+            <%= f.submit "Request A Driver", class: "button expand" %>
+        <% end %>
+    </div>
+</div>

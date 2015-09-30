@@ -1,0 +1,23 @@
+<div class="row">
+    <h1 class="text-center">Rider Dashboard</h1>
+    <div class="row">
+        <div class="large-3 large-offset-5 columns">
+            <%= link_to "Start A Trip", new_trip_path, class: button_class(@rider) %>
+        </div>
+    </div>
+    <% if @rider.active_rider_trip %>
+        <div class="row">
+            <div class="large-6 large-offset-3 columns">
+                <div class="panel" style="background-color: white">
+                    <h3 class="text-center">Your Trip Has Started!</h3>
+                    <p class="text-center">Pickup Location: <%= @rider.active_rider_trip.pickup_location %></p>
+                    <p class="text-center">Dropoff Location: <%= @rider.active_rider_trip.dropoff_location %></p>
+                    <p class="text-center">Number Of Passengers: <%= @rider.active_rider_trip.passengers %></p>
+                    <div class="panel">
+                        <p class="text-center">Status: <%= @rider.active_rider_trip.status.capitalize  %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% end %>
+</div>

@@ -3,16 +3,16 @@ require 'test_helper'
 class SessionsControllerTest < ActionController::TestCase
   def setup
     @rider = User.create(name: "Josh",
-                         email: "josh@josh.com",
-                         phone_number: '5555555555',
-                         password: 'password',
-                         password_confirmation: 'password',
-                         role: 'rider')
+      email: "josh@josh.com",
+      phone_number: '5555555555',
+      password: 'password',
+      password_confirmation: 'password',
+      role: 'rider')
   end
 
   test 'it logs in a user on #create' do
     post :create, session: {email: "josh@josh.com",
-                           password: 'password'}
+      password: 'password'}
 
     assert_response :redirect
     assert_redirected_to rider_path(@rider.id)
@@ -24,5 +24,11 @@ class SessionsControllerTest < ActionController::TestCase
     assert_response :redirect
     assert_redirected_to root_path
     refute session[:user_id]
+  end
+
+  test 'it can load #new' do
+    get :new
+    assert_response :success
+    assert_template :new
   end
 end
